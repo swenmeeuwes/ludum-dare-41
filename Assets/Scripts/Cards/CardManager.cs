@@ -6,6 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class AvailableCardItem
+{
+    public Card Card;
+    [Range(0, 100)] public int Propability;
+}
+
 public class CardManager : MonoSingleton<CardManager>
 {
     [SerializeField] private Player _player;
@@ -13,7 +20,7 @@ public class CardManager : MonoSingleton<CardManager>
     [SerializeField] private Transform[] _availableTargetsHints;
     [SerializeField] private DropTarget _handDropTarget;
     [SerializeField] private LayoutGroup _layoutGroup;
-    [SerializeField] private Card[] _availableCards;
+    [SerializeField] private AvailableCardItem[] _availableCards;
     
     private CardVisitor _executeCardVisitor;
 
@@ -46,7 +53,7 @@ public class CardManager : MonoSingleton<CardManager>
 
     public Card PutRandomCardInHand()
     {
-        var randomCardPrefab = _availableCards[Random.Range(0, _availableCards.Length)];
+        var randomCardPrefab = GetRandomCard();
         var cardGameObject = Instantiate(randomCardPrefab.gameObject);
         var card = cardGameObject.GetComponent<Card>();
         if (card == null)
@@ -80,6 +87,19 @@ public class CardManager : MonoSingleton<CardManager>
 
             executeIndex++;
         }
+    }
+
+    private Card GetRandomCard()
+    {
+        var probabilityCountDown = Random.Range(0, 100);
+        for (var i = 0; i < _availableCards.Length; i++)
+        {
+            probabilityCountDown -= _availableCards[i].Propability;
+            if (probabilityCountDown < 0)
+                return _availableCards[i].Card;
+        }
+
+        return _availableCards[_availableCards.Length - 1].Card;
     }
 
     //[Obsolete]
