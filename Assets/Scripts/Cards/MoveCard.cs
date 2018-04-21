@@ -18,6 +18,7 @@ public class MoveCard : Card
         {
             Elements.Description.text = string.Format("Move {0} spaces {1}", value, Direction);
             _move = value;
+            Cost = value;
         }
     }
 
@@ -44,6 +45,6 @@ public class MoveCard : Card
         Direction = (MoveDirection)Enum.Parse(typeof(MoveDirection), randomDirection);
 
         // Randomize moves
-        Moves = UnityEngine.Random.Range(1, 4); // 1 - 3 moves (4 = exclusive)
+        Moves = UnityEngine.Random.Range(1, 3); // 1 - 2 moves (3 = exclusive)
     }
 }
