@@ -38,6 +38,6 @@ public class ExecuteCardVisitor : CardVisitor
         _player.Movement.Move(moveVector);
 
         card.Destroy();
-        _cardManager.RetrieveRandomCard();
+        _cardManager.PutRandomCardInHand();
     }
 }

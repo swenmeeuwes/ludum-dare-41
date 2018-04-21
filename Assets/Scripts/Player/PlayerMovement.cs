@@ -1,9 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoEventDispatcher
 {
+    public static readonly string IsMovingChanged = "PlayerMovement.IsMovingChanged";
+
+    private bool _isBusy;
+    public bool IsBusy {
+        get { return _isBusy; }
+        set
+        {
+            _isBusy = value;
+            Dispatch(new EventObject
+            {
+                Sender = this,
+                Type = IsMovingChanged,
+                Data = value
+            });
+        }        
+    }
+
     public Vector3Int GridPosition
     {
         get { return Vector3Int.FloorToInt(transform.position); }
@@ -16,16 +34,23 @@ public class PlayerMovement : MonoBehaviour
             transform.position += Vector3.left * GridManager.Instance.GridSize;
         }
     }
-    
+
     public void Move(Vector2Int moves)
     {
+        StartCoroutine(MoveCoroutine(moves));
+    }
+
+    public IEnumerator MoveCoroutine(Vector2Int moves)
+    {
+        IsBusy = true;
+
         var gridManager = GridManager.Instance;
         while (moves.x != 0)
         {
             if (moves.x > 0)
             {
                 if (!gridManager.IsFree(GridPosition + Vector3Int.right))
-                    return;
+                    break;
 
                 transform.position = GridPosition + Vector3Int.right;
 
@@ -34,12 +59,14 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 if (!gridManager.IsFree(GridPosition + Vector3Int.left))
-                    return;
+                    break;
 
                 transform.position = GridPosition + Vector3Int.left;
 
                 moves.x++;
             }
+
+            yield return new WaitForSeconds(0.35f);
         }
 
         while (moves.y != 0)
@@ -47,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             if (moves.y > 0)
             {
                 if (!gridManager.IsFree(GridPosition + Vector3Int.up))
-                    return;
+                    break;
 
                 transform.position = GridPosition + Vector3Int.up;
 
@@ -56,13 +83,17 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 if (!gridManager.IsFree(GridPosition + Vector3Int.down))
-                    return;
+                    break;
 
                 transform.position = GridPosition + Vector3Int.down;
 
                 moves.y++;
             }
+
+            yield return new WaitForSeconds(0.35f);
         }
+
+        IsBusy = false;
     }
 
     [Obsolete]

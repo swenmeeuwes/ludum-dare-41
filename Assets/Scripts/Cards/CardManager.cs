@@ -11,10 +11,16 @@ public class CardManager : MonoSingleton<CardManager>
     [SerializeField] private Player _player;
     [SerializeField] private DropTarget[] _availableTargets;
     [SerializeField] private Transform[] _availableTargetsHints;
+    [SerializeField] private DropTarget _handDropTarget;
     [SerializeField] private LayoutGroup _layoutGroup;
     [SerializeField] private Card[] _availableCards;
     
     private CardVisitor _executeCardVisitor;
+
+    private void Awake()
+    {
+        DefineSingleton(this);
+    }
 
     private void Start()
     {
@@ -27,7 +33,7 @@ public class CardManager : MonoSingleton<CardManager>
         // TEST
         for (var i = 0; i < 5; i++)
         {
-            RetrieveRandomCard();
+            PutRandomCardInHand();
         }
     }
 
@@ -38,7 +44,7 @@ public class CardManager : MonoSingleton<CardManager>
         base.OnDestroy();        
     }
 
-    public Card RetrieveRandomCard()
+    public Card PutRandomCardInHand()
     {
         var randomCardPrefab = _availableCards[Random.Range(0, _availableCards.Length)];
         var cardGameObject = Instantiate(randomCardPrefab.gameObject);
@@ -46,14 +52,34 @@ public class CardManager : MonoSingleton<CardManager>
         if (card == null)
             return null;
 
+        card.CurrentDropTarget = _handDropTarget;
         card.PossibleTargets = _availableTargetsHints;
         card.LayoutGroup = _layoutGroup;
+        card.Cost = Random.Range(1, 2);
 
         card.Randomize();
 
         card.transform.SetParent(_layoutGroup.transform, false);
 
         return card;
+    }
+
+    public void ExecuteCards(Card[] cards)
+    {
+        StartCoroutine(ExecuteCardsCoroutine(cards));
+    }
+
+    private IEnumerator ExecuteCardsCoroutine(Card[] cards)
+    {
+        var executeIndex = 0;
+        while (cards.Length > executeIndex)
+        {            
+            cards[executeIndex].Accept(_executeCardVisitor);
+
+            yield return new WaitUntil(() => !_player.Movement.IsBusy);
+
+            executeIndex++;
+        }
     }
 
     //[Obsolete]
@@ -95,9 +121,11 @@ public class CardManager : MonoSingleton<CardManager>
     // When the drop target receives a drop (card)
     private void OnDropTargetDropped(EventObject eventObject)
     {
-        var droppedGameObject = (GameObject)eventObject.Data;
-        var card = droppedGameObject.GetComponent<Card>();
-        if (card != null)
-            card.Accept(_executeCardVisitor);
+        //var droppedGameObject = (GameObject)eventObject.Data;
+        //var card = droppedGameObject.GetComponent<Card>();
+        //if (card != null)
+        //    card.Accept(_executeCardVisitor);
+
+        // todo: update stamina?
     }
 }

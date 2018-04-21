@@ -11,6 +11,8 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     private MaskableGraphic _graphic;
 
+    public DropTarget CurrentDropTarget { get; set; }
+
     private bool _isBeingDragged;
     private bool IsBeingDragged {
         set
@@ -45,7 +47,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnEndDrag(PointerEventData pointerEventData = null)
     {
-        IsBeingDragged = false;        
+        IsBeingDragged = false;
 
         if (ShouldReturn)
             transform.position = _startPosition;
