@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FollowingCamera : MonoBehaviour
 {
-    public GameObject Target;
+    public Transform Target;
     public float SmoothTime;
     public float MaxSpeed;
 
@@ -24,7 +24,13 @@ public class FollowingCamera : MonoBehaviour
 
     private void Start()
 	{
-	    _followingCamera = GetComponent<Camera>();	    
+	    _followingCamera = GetComponent<Camera>();
+
+	    if (Target == null)
+	        Target = FindObjectOfType<Player>().transform;
+
+        // Start at target
+        transform.position = new Vector3(Target.position.x, Target.position.y, transform.position.z);
 	}
 	
 	private void Update()
