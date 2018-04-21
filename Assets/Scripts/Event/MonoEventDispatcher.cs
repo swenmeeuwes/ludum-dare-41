@@ -17,7 +17,8 @@ public class MonoEventDispatcher : MonoBehaviour, IEventDispatcher
 
     public void RemoveEventListener(string type, Action<EventObject> action)
     {
-        _eventDispatcher.RemoveEventListener(type, action);
+        if (_eventDispatcher != null)
+            _eventDispatcher.RemoveEventListener(type, action);
     }
 
     public void Dispatch(EventObject eventObject)

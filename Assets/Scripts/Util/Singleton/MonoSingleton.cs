@@ -6,7 +6,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour
     public static T Instance;
     public static bool DestroyOnLoad = true;
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (DestroyOnLoad)
             Instance = default(T);
