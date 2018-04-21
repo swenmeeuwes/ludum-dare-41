@@ -11,4 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6819624c3f9f724cb83e1ddd5aa6a61, type: 3}
   m_Name: Input Context
   m_EditorClassIdentifier: 
-  InputItems: []
+  InputItems:
+  - Action: Move
+    KeyCode: 0
+    Touch: 1
+    MouseButton: 0
