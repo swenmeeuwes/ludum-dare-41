@@ -9,6 +9,7 @@
     public static readonly string Fire2 = "Fire2";
     public static readonly string Fire3 = "Fire3";
 
+    public static readonly string Move = "Move";
     public static readonly string Jump = "Jump";
 
     public static readonly string Submit = "Submit";
@@ -17,5 +18,5 @@
     // Mouse
     public static readonly string MouseX = "Mouse X";
     public static readonly string MouseY = "Mouse Y";
-    public static readonly string MouseScrollWheel = "Mouse ScrollWheel";
+    public static readonly string MouseScrollWheel = "Mouse ScrollWheel";    
 }
