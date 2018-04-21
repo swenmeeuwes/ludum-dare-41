@@ -35,6 +35,28 @@ public class PlayerMovement : MonoEventDispatcher
         }
     }
 
+    public void Attack(Vector3Int direction)
+    {
+        StartCoroutine(AttackCoroutine(direction));
+    }
+
+    public IEnumerator AttackCoroutine(Vector3Int direction)
+    {
+        IsBusy = true;
+
+        var tiles = GridManager.Instance.GetTilesOn(GridPosition + direction);
+        foreach (var tile in tiles)
+        {
+            Debug.Log(tile);
+        }
+
+        SoundManager.Instance.Play(Sound.Attack);
+
+        yield return new WaitForSeconds(0.35f);
+
+        IsBusy = false;
+    }
+
     public void Move(Vector2Int moves)
     {
         StartCoroutine(MoveCoroutine(moves));
@@ -66,6 +88,8 @@ public class PlayerMovement : MonoEventDispatcher
                 moves.x++;
             }
 
+            SoundManager.Instance.Play(Sound.Walk);
+
             yield return new WaitForSeconds(0.35f);
         }
 
@@ -89,6 +113,8 @@ public class PlayerMovement : MonoEventDispatcher
 
                 moves.y++;
             }
+
+            SoundManager.Instance.Play(Sound.Walk);
 
             yield return new WaitForSeconds(0.35f);
         }

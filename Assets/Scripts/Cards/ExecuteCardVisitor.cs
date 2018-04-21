@@ -37,6 +37,18 @@ public class ExecuteCardVisitor : CardVisitor
 
         _player.Movement.Move(moveVector);
 
+        HandledCard(card);
+    }
+
+    public void Visit(AttackCard card)
+    {
+        _player.Movement.Attack(Vector3Int.down);
+
+        HandledCard(card);
+    }
+
+    private void HandledCard(Card card)
+    {
         card.Destroy();
         _cardManager.PutRandomCardInHand();
     }
