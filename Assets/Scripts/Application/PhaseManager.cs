@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -12,6 +13,7 @@ public class PhaseSettings
 public enum Phase
 {
     Player,
+    Obstacles,
     Enemy
 }
 
@@ -21,7 +23,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     public static readonly string CurrentStaminaCostChanged = "PhaseManager.CurrentStaminaCostChanged";
 
     [SerializeField] private ExecuteHolder _executeHolder;
-    [SerializeField] private PhaseSettings _settings;
+    [SerializeField] private PhaseSettings _settings;    
 
     private Phase _currentPhase;
     public Phase CurrentPhase {
@@ -72,6 +74,8 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         }
     }
 
+    private readonly List<Obstacle> _obstacles = new List<Obstacle>();
+
     protected override void Awake()
     {
         base.Awake();
@@ -85,10 +89,42 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         PlayerStamina = _settings.PlayerStaminaPerPhase;
     }
 
+    public void RegisterObstacle(Obstacle obstacle)
+    {
+        _obstacles.Add(obstacle);
+    }
+
+    public void DeRegisterObstacle(Obstacle obstacle)
+    {
+        _obstacles.Remove(obstacle);
+    }
+
     public void ExecuteCards()
     {
         var cards = _executeHolder.Cards;
         CardManager.Instance.ExecuteCards(cards);
-        //CurrentPhase = Phase.Enemy;
+
+        CurrentPhase = Phase.Obstacles;
+        HandleCurrentPhase();
+    }
+
+    private void HandleCurrentPhase()
+    {
+        switch (CurrentPhase)
+        {
+            case Phase.Player:
+                break;
+            case Phase.Obstacles:
+                _obstacles.ForEach(obstacle => obstacle.AdvanceStage());
+                CurrentPhase = Phase.Enemy;
+                HandleCurrentPhase();
+                break;
+            case Phase.Enemy:
+                CurrentPhase = Phase.Player;
+                HandleCurrentPhase();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }
