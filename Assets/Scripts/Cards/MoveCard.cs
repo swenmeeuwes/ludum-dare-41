@@ -16,7 +16,7 @@ public class MoveCard : Card
         get { return _move; }
         set
         {
-            Elements.Description.text = value.ToString();
+            Elements.Description.text = string.Format("Move {0} spaces {1}", value, Direction);
             _move = value;
         }
     }
