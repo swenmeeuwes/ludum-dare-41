@@ -7,12 +7,12 @@ public class PlayerMovement : MonoEventDispatcher
 {
     public static readonly string IsMovingChanged = "PlayerMovement.IsMovingChanged";
 
-    private bool _isBusy;
-    public bool IsBusy {
-        get { return _isBusy; }
+    private bool _isMoving;
+    public bool IsMoving {
+        get { return _isMoving; }
         set
         {
-            _isBusy = value;
+            _isMoving = value;
             Dispatch(new EventObject
             {
                 Sender = this,
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoEventDispatcher
 
     public IEnumerator AttackCoroutine(Vector3Int direction)
     {
-        IsBusy = true;
+        IsMoving = true;
 
         var tiles = GridManager.Instance.GetTilesOn(GridPosition + direction);
         foreach (var tile in tiles)
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoEventDispatcher
 
         yield return new WaitForSeconds(0.35f);
 
-        IsBusy = false;
+        IsMoving = false;
     }
 
     public void Move(Vector2Int moves)
@@ -64,7 +64,7 @@ public class PlayerMovement : MonoEventDispatcher
 
     public IEnumerator MoveCoroutine(Vector2Int moves)
     {
-        IsBusy = true;
+        IsMoving = true;
 
         var gridManager = GridManager.Instance;
         while (moves.x != 0)
@@ -119,7 +119,7 @@ public class PlayerMovement : MonoEventDispatcher
             yield return new WaitForSeconds(0.35f);
         }
 
-        IsBusy = false;
+        IsMoving = false;
     }
 
     [Obsolete]

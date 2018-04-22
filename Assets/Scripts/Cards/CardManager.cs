@@ -91,7 +91,7 @@ public class CardManager : MonoSingletonEventDispatcher<CardManager>
         {            
             cards[executeIndex].Accept(_executeCardVisitor);
 
-            yield return new WaitUntil(() => !_player.Movement.IsBusy);
+            yield return new WaitUntil(() => !_player.Movement.IsMoving);
 
             executeIndex++;
         }

@@ -12,14 +12,14 @@ public class EndTurnButtonController : MonoBehaviour
     {
         var phaseManager = PhaseManager.Instance;
         var staminaNetto = phaseManager.PlayerStamina - phaseManager.CurrentStaminaCost;
-        _endTurnButton.interactable = !(staminaNetto < 0 || _player.Movement.IsBusy || phaseManager.CurrentPhase != Phase.Player);
+        _endTurnButton.interactable = !(staminaNetto < 0 || _player.Movement.IsMoving || phaseManager.CurrentPhase != Phase.Player);
 
-        if (_endTurnButton.interactable && _executeHolder.Cards.Length == 0)
-            _endTurnButtonText.text = "Shuffle";
+        if (_endTurnButton.interactable)
+            _endTurnButtonText.text = _executeHolder.Cards.Length == 0 ? "Shuffle" : "End turn";
         else
-            _endTurnButtonText.text = "End turn";
+            _endTurnButtonText.text = "...";
 
-        //Debug.Log(string.Format("{0}  {1}   {2}", staminaNetto < 0, _player.Movement.IsBusy, phaseManager.CurrentPhase != Phase.Player));
+        //Debug.Log(string.Format("{0}  {1}   {2}", staminaNetto < 0, _player.Movement.IsMoving, phaseManager.CurrentPhase != Phase.Player));
     }
 
     public void Handle()
