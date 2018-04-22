@@ -9,6 +9,8 @@ public class SpikeSettings
 {
     public SpriteRenderer SpriteRenderer;
     public Sprite[] StageSprites;
+    public int StartStage;
+    public bool RandomStartStage = true;
 }
 
 public class Spikes : Obstacle
@@ -33,7 +35,10 @@ public class Spikes : Obstacle
     private void Start()
     {
         Stages = 3;
-        CurrentStage = Random.Range(0, Stages);
+
+        CurrentStage = _settings.StartStage;
+        if (_settings.RandomStartStage)
+            CurrentStage = Random.Range(0, Stages);
 
         PhaseManager.Instance.RegisterObstacle(this);
     }
