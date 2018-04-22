@@ -175,7 +175,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     {
         _obstacles.ForEach(obstacle => obstacle.AdvanceStage());
 
-        yield return new WaitForSeconds(0.55f);
+        yield return new WaitForSeconds(0.65f);
 
         CurrentPhase = Phase.Player;
         HandleCurrentPhase();

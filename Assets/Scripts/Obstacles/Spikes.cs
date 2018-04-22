@@ -54,14 +54,25 @@ public class Spikes : MonoBehaviour, IPhaseItem
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Player>() == null)
+        var player = collider.GetComponent<Player>();
+        if (player == null)
             return;
-
-        GameManager.Instance.State = GameState.GameOver;
+        
+        StartCoroutine(KillPlayer(player));
     }
 
     public void AdvanceStage()
     {
         CurrentStage++;
+    }
+
+    private IEnumerator KillPlayer(Player player)
+    {
+        SoundManager.Instance.Play(Sound.Hurt);
+        player.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.35f);
+
+        GameManager.Instance.State = GameState.GameOver;
     }
 }
