@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FollowingCamera : MonoBehaviour
 {
+    [SerializeField] private bool _smooth; // Testing for pixel perfectness
+
     public Transform Target;
     public float SmoothTime;
     public float MaxSpeed;
@@ -23,25 +25,35 @@ public class FollowingCamera : MonoBehaviour
     }
 
     private void Start()
-	{
-	    _followingCamera = GetComponent<Camera>();
+    {
+        _followingCamera = GetComponent<Camera>();
 
-	    if (Target == null)
-	        Target = FindObjectOfType<Player>().transform;
+        if (Target == null)
+            Target = FindObjectOfType<Player>().transform;
 
         // Start at target
-        transform.position = new Vector3(Target.position.x, Target.position.y, transform.position.z);
-	}
-	
-	private void Update()
-	{
-	    var dampedPosition = Vector2.SmoothDamp(_followingCamera.transform.position, Target.transform.position,
-	        ref _currentVelocity, SmoothTime, MaxSpeed, Time.deltaTime);
+        var newPosition = Target.transform.position;
+        newPosition.z = transform.position.z;
 
-	    var newPosition = new Vector3(dampedPosition.x, dampedPosition.y, _startPos.z);
-        _followingCamera.transform.position = newPosition;
+        _followingCamera.transform.position = Vector3Int.RoundToInt(newPosition);
+    }
 
-        if (_currentVelocity == Vector2.zero)
+    private void Update()
+    {
+        if (_smooth)
+        {
+            var dampedPosition = Vector2.SmoothDamp(_followingCamera.transform.position, Vector2Int.RoundToInt(Target.transform.position),
+                ref _currentVelocity, SmoothTime, MaxSpeed, Time.deltaTime);
+
+            var newPosition = new Vector3(dampedPosition.x, dampedPosition.y, _startPos.z);
+            _followingCamera.transform.position = newPosition;
+        }
+        else
+        {
+            var newPosition = Target.transform.position;
+            newPosition.z = transform.position.z;
+
             _followingCamera.transform.position = Vector3Int.RoundToInt(newPosition);
+        }
     }
 }
