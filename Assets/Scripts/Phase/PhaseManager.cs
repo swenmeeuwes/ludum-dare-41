@@ -24,10 +24,11 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     public static readonly string PhaseChanged = "PhaseManager.PhaseChanged";
 
     [SerializeField] private ExecuteHolder _executeHolder;
-    [SerializeField] private PhaseSettings _settings;    
+    [SerializeField] private PhaseSettings _settings;
 
     private Phase _currentPhase;
-    public Phase CurrentPhase {
+    public Phase CurrentPhase
+    {
         get { return _currentPhase; }
         set
         {
@@ -53,7 +54,8 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     }
 
     private int _playerStamina;
-    public int PlayerStamina {
+    public int PlayerStamina
+    {
         get { return _playerStamina; }
         set
         {
@@ -68,7 +70,8 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     }
 
     private int _currentStaminaCost;
-    public int CurrentStaminaCost {
+    public int CurrentStaminaCost
+    {
         get { return _currentStaminaCost; }
         set
         {
@@ -131,7 +134,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     }
 
     public void ShuffleCards()
-    {       
+    {
         CardManager.Instance.ShuffleCards();
 
         CurrentPhase = Phase.Enemy;
@@ -146,7 +149,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
                 // User controlled
                 break;
             case Phase.Enemy:
-                StartCoroutine(EnemyPhase());                
+                StartCoroutine(EnemyPhase());
                 break;
             case Phase.Obstacles:
                 StartCoroutine(ObstaclePhase());
@@ -161,8 +164,14 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         foreach (var enemyPhaseItem in _enemies)
         {
             var enemy = (Enemy)enemyPhaseItem;
-            enemy.AdvanceStage();
-            yield return new WaitUntil(() => !enemy.IsMoving);            
+            var times = enemy.Moves;
+            while (times > 0)
+            {
+                enemy.AdvanceStage();
+                yield return new WaitUntil(() => !enemy.IsMoving);
+
+                times--;
+            }
         }
 
         yield return new WaitForSeconds(0.25f);

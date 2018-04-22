@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
     }
 
     public bool IsMoving { get; set; }
+    public int Moves = 1;
 
     private Player _target;
 
