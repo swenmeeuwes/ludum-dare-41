@@ -21,6 +21,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
 {
     public static readonly string PlayerStaminaChanged = "PhaseManager.PlayerStaminaChanged";
     public static readonly string CurrentStaminaCostChanged = "PhaseManager.CurrentStaminaCostChanged";
+    public static readonly string PhaseChanged = "PhaseManager.PhaseChanged";
 
     [SerializeField] private ExecuteHolder _executeHolder;
     [SerializeField] private PhaseSettings _settings;    
@@ -41,6 +42,13 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
             }
 
             _currentPhase = value;
+
+            Dispatch(new EventObject
+            {
+                Sender = this,
+                Type = PhaseChanged,
+                Data = value
+            });
         }
     }
 
