@@ -74,7 +74,8 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         }
     }
 
-    private readonly List<Obstacle> _obstacles = new List<Obstacle>();
+    private readonly List<IPhaseItem> _obstacles = new List<IPhaseItem>();
+    private readonly List<IPhaseItem> _enemies = new List<IPhaseItem>();
 
     protected override void Awake()
     {
@@ -89,14 +90,24 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         PlayerStamina = _settings.PlayerStaminaPerPhase;
     }
 
-    public void RegisterObstacle(Obstacle obstacle)
+    public void RegisterObstacle(IPhaseItem obstacle)
     {
         _obstacles.Add(obstacle);
     }
 
-    public void DeRegisterObstacle(Obstacle obstacle)
+    public void DeregisterObstacle(IPhaseItem obstacle)
     {
         _obstacles.Remove(obstacle);
+    }
+
+    public void RegisterEnemy(IPhaseItem enemy)
+    {
+        _enemies.Add(enemy);
+    }
+
+    public void DeregisterEnemy(IPhaseItem enemy)
+    {
+        _enemies.Remove(enemy);
     }
 
     public void ExecuteCards()
@@ -131,11 +142,25 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
                 HandleCurrentPhase();
                 break;
             case Phase.Enemy:
-                CurrentPhase = Phase.Player;
-                HandleCurrentPhase();
+                StartCoroutine(EnemyPhase());                
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private IEnumerator EnemyPhase()
+    {
+        foreach (var enemyPhaseItem in _enemies)
+        {
+            var enemy = (Enemy)enemyPhaseItem;
+            enemy.AdvanceStage();
+            yield return new WaitUntil(() => !enemy.IsMoving);            
+        }
+
+        yield return new WaitForSeconds(0.15f);
+
+        CurrentPhase = Phase.Player;
+        HandleCurrentPhase();
     }
 }

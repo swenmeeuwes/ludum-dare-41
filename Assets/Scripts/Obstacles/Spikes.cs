@@ -14,7 +14,7 @@ public class SpikeSettings
 }
 
 [RequireComponent(typeof(Collider2D))]
-public class Spikes : Obstacle
+public class Spikes : MonoBehaviour, IPhaseItem
 {
     [SerializeField] private SpikeSettings _settings;
 
@@ -60,9 +60,8 @@ public class Spikes : Obstacle
         GameManager.Instance.State = GameState.GameOver;
     }
 
-    public override void AdvanceStage()
+    public void AdvanceStage()
     {
         CurrentStage++;
     }
-
 }

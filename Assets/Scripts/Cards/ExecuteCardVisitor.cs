@@ -42,7 +42,8 @@ public class ExecuteCardVisitor : CardVisitor
 
     public void Visit(AttackCard card)
     {
-        _player.Movement.Attack(Vector3Int.down);
+        var enemies = _player.GetNearbyEnemies();
+        _player.Movement.Attack(enemies);
 
         HandledCard(card);
     }
