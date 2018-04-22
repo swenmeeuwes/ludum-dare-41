@@ -71,7 +71,7 @@ public class PlayerMovement : MonoEventDispatcher
         {
             if (moves.x > 0)
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.right))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.right, GridLayer.Walls))
                     break;
 
                 transform.position = GridPosition + Vector3Int.right;
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoEventDispatcher
             }
             else
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.left))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.left, GridLayer.Walls))
                     break;
 
                 transform.position = GridPosition + Vector3Int.left;
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoEventDispatcher
         {
             if (moves.y > 0)
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.up))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.up, GridLayer.Walls))
                     break;
 
                 transform.position = GridPosition + Vector3Int.up;
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoEventDispatcher
             }
             else
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.down))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.down, GridLayer.Walls))
                     break;
 
                 transform.position = GridPosition + Vector3Int.down;
