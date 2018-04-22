@@ -4,6 +4,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ScreenTransitionHandler : MonoSingleton<ScreenTransitionHandler>
 {
+    [SerializeField] private Color _dieingTransitionColor;
     [SerializeField] private Material _prototypeTransitionMaterial;
 
     public Material TransitionMaterial { get; private set; }
@@ -22,6 +23,11 @@ public class ScreenTransitionHandler : MonoSingleton<ScreenTransitionHandler>
     {
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.ScreenTransitionHandler = this;
+    }
+
+    public void IsDieing()
+    {
+        TransitionMaterial.SetColor("_TransitionColor", _dieingTransitionColor);
     }
 
     public void AnimateIn()

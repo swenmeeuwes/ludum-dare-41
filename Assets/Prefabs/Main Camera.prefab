@@ -64,7 +64,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30b5a7a3d84f87408ac9c325360fdf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dieingTransitionColor: {r: 1, g: 0.375, b: 0.375, a: 1}
   _prototypeTransitionMaterial: {fileID: 2100000, guid: 459c1033f431bdc4190632180a60db11,
     type: 2}
   SceneTransitionDuration: 0.45
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78614e31e379f74c945723c6974a048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _smooth: 1
   Target: {fileID: 0}
   SmoothTime: 0.45
   MaxSpeed: 4
