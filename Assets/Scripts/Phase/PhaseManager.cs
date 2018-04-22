@@ -13,8 +13,8 @@ public class PhaseSettings
 public enum Phase
 {
     Player,
-    Obstacles,
-    Enemy
+    Enemy,
+    Obstacles
 }
 
 public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
@@ -125,7 +125,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
 
         CardManager.Instance.AddEventListener(CardManager.ExecutionDone, _ =>
         {
-            CurrentPhase = Phase.Obstacles;
+            CurrentPhase = Phase.Enemy;
             HandleCurrentPhase();
         }, true);
     }
@@ -134,7 +134,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
     {       
         CardManager.Instance.ShuffleCards();
 
-        CurrentPhase = Phase.Obstacles;
+        CurrentPhase = Phase.Enemy;
         HandleCurrentPhase();
     }
 
@@ -143,14 +143,13 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         switch (CurrentPhase)
         {
             case Phase.Player:
-                break;
-            case Phase.Obstacles:
-                _obstacles.ForEach(obstacle => obstacle.AdvanceStage());
-                CurrentPhase = Phase.Enemy;
-                HandleCurrentPhase();
+                // User controlled
                 break;
             case Phase.Enemy:
                 StartCoroutine(EnemyPhase());                
+                break;
+            case Phase.Obstacles:
+                StartCoroutine(ObstaclePhase());
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -166,7 +165,17 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
             yield return new WaitUntil(() => !enemy.IsMoving);            
         }
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.25f);
+
+        CurrentPhase = Phase.Obstacles;
+        HandleCurrentPhase();
+    }
+
+    private IEnumerator ObstaclePhase()
+    {
+        _obstacles.ForEach(obstacle => obstacle.AdvanceStage());
+
+        yield return new WaitForSeconds(0.55f);
 
         CurrentPhase = Phase.Player;
         HandleCurrentPhase();
