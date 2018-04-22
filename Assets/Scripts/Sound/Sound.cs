@@ -2,5 +2,6 @@
     Walk,
     Attack,
     Hurt,
-    Shuffle
+    Shuffle,
+    DungeonClear
 }
