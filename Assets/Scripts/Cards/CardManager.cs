@@ -13,8 +13,10 @@ public class AvailableCardItem
     [Range(0, 100)] public int Propability;
 }
 
-public class CardManager : MonoSingleton<CardManager>
+public class CardManager : MonoSingletonEventDispatcher<CardManager>
 {
+    public static readonly string ExecutionDone = "CardManager.ExecutionDone";
+
     [SerializeField] private Player _player;
     [SerializeField] private DropTarget[] _availableTargets;
     [SerializeField] private Transform[] _availableTargetsHints;
@@ -25,8 +27,10 @@ public class CardManager : MonoSingleton<CardManager>
     
     private CardVisitor _executeCardVisitor;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         DefineSingleton(this);
     }
 
@@ -91,6 +95,12 @@ public class CardManager : MonoSingleton<CardManager>
 
             executeIndex++;
         }
+        
+        Dispatch(new EventObject
+        {
+            Sender = this,
+            Type = ExecutionDone
+        });
     }
 
     private Card GetRandomCard()

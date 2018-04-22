@@ -104,8 +104,11 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         var cards = _executeHolder.Cards;
         CardManager.Instance.ExecuteCards(cards);
 
-        CurrentPhase = Phase.Obstacles;
-        HandleCurrentPhase();
+        CardManager.Instance.AddEventListener(CardManager.ExecutionDone, _ =>
+        {
+            CurrentPhase = Phase.Obstacles;
+            HandleCurrentPhase();
+        }, true);
     }
 
     public void ShuffleCards()
