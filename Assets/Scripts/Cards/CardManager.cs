@@ -24,6 +24,8 @@ public class CardManager : MonoSingletonEventDispatcher<CardManager>
     [SerializeField] private LayoutGroup _layoutGroup;
     [SerializeField] private AvailableCardItem[] _availableCards;
     [SerializeField] private int _handSize = 5;
+
+    public bool IsExecuting { get; set; }
     
     private CardVisitor _executeCardVisitor;
 
@@ -86,6 +88,8 @@ public class CardManager : MonoSingletonEventDispatcher<CardManager>
 
     private IEnumerator ExecuteCardsCoroutine(Card[] cards)
     {
+        IsExecuting = true;
+
         var executeIndex = 0;
         while (cards.Length > executeIndex)
         {            
@@ -101,6 +105,8 @@ public class CardManager : MonoSingletonEventDispatcher<CardManager>
             Sender = this,
             Type = ExecutionDone
         });
+
+        IsExecuting = false;
     }
 
     private Card GetRandomCard()

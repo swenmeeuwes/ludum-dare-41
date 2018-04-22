@@ -4,15 +4,14 @@ using UnityEngine.UI;
 public class EndTurnButtonController : MonoBehaviour
 {
     [SerializeField] private Button _endTurnButton;
-    [SerializeField] private Text _endTurnButtonText;
-    [SerializeField] private Player _player;
+    [SerializeField] private Text _endTurnButtonText;    
     [SerializeField] private ExecuteHolder _executeHolder;
 
     private void Update()
     {
         var phaseManager = PhaseManager.Instance;
         var staminaNetto = phaseManager.PlayerStamina - phaseManager.CurrentStaminaCost;
-        _endTurnButton.interactable = !(staminaNetto < 0 || _player.Movement.IsMoving || phaseManager.CurrentPhase != Phase.Player);
+        _endTurnButton.interactable = !(staminaNetto < 0 || CardManager.Instance.IsExecuting || phaseManager.CurrentPhase != Phase.Player);
 
         if (_endTurnButton.interactable)
             _endTurnButtonText.text = _executeHolder.Cards.Length == 0 ? "Shuffle" : "End turn";
