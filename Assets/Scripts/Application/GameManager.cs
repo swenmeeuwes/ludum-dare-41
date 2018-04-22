@@ -39,7 +39,7 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case GameState.GameOver:
                 ScreenTransitionHandler.Instance.IsDieing();                
-                SceneLoader.Instance.ReloadCurrentSceneAsync();                
+                SceneLoader.Instance.ReloadCurrentSceneAsync();
                 break;
         }
     }

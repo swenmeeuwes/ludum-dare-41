@@ -17256,7 +17256,7 @@ Prefab:
     - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
         type: 2}
       propertyPath: _availableCards.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4873706684768618, guid: 64140b5d70c9f7347bbea628e4b08d81, type: 2}
       propertyPath: m_LocalPosition.x
@@ -17324,12 +17324,23 @@ Prefab:
     - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
         type: 2}
       propertyPath: _availableCards.Array.data[1].Propability
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
         type: 2}
       propertyPath: _availableCards.Array.data[0].Propability
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
+        type: 2}
+      propertyPath: _availableCards.Array.data[2].Card
+      value: 
+      objectReference: {fileID: 114896682129734220, guid: 4615c17921b89104cb9963bf28f9c9c7,
+        type: 2}
+    - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
+        type: 2}
+      propertyPath: _availableCards.Array.data[2].Propability
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64140b5d70c9f7347bbea628e4b08d81, type: 2}

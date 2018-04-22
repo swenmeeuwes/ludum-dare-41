@@ -48,6 +48,14 @@ public class ExecuteCardVisitor : CardVisitor
         HandledCard(card);
     }
 
+    public void Visit(SpinAttackCard card)
+    {
+        var enemies = _player.GetNearbyEnemies(true);
+        _player.Movement.Attack(enemies);
+
+        HandledCard(card);
+    }
+
     private void HandledCard(Card card)
     {
         card.Destroy();
