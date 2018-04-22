@@ -208,7 +208,6 @@ GameObject:
   - component: {fileID: 224926408573920520}
   - component: {fileID: 222499383632578474}
   - component: {fileID: 114219112318923612}
-  - component: {fileID: 114938769650851594}
   m_Layer: 5
   m_Name: BottomBar
   m_TagString: Untagged
@@ -261,6 +260,7 @@ GameObject:
   - component: {fileID: 222592879973424366}
   - component: {fileID: 114922941250662262}
   - component: {fileID: 114492989718618642}
+  - component: {fileID: 114070380129832918}
   m_Layer: 5
   m_Name: ExecuteButton
   m_TagString: Untagged
@@ -281,6 +281,21 @@ Transform:
   m_Father: {fileID: 224321019567527358}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114070380129832918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1865730973090398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3632edfec390d554cb4439714969e544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _endTurnButton: {fileID: 114492989718618642}
+  _endTurnButtonText: {fileID: 114448276675880544}
+  _player: {fileID: 0}
+  _executeHolder: {fileID: 114299503721049218}
 --- !u!114 &114166712019554190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -603,8 +618,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ExecuteCards
+      - m_Target: {fileID: 114070380129832918}
+        m_MethodName: Handle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -755,20 +770,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114938769650851594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1572699233989752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3632edfec390d554cb4439714969e544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _endTurnButton: {fileID: 114492989718618642}
-  _player: {fileID: 0}
-  _executeHolder: {fileID: 114299503721049218}
 --- !u!222 &222031536837311434
 CanvasRenderer:
   m_ObjectHideFlags: 1

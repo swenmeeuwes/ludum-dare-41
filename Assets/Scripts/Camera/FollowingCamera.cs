@@ -40,5 +40,8 @@ public class FollowingCamera : MonoBehaviour
 
 	    var newPosition = new Vector3(dampedPosition.x, dampedPosition.y, _startPos.z);
         _followingCamera.transform.position = newPosition;
-	}
+
+        if (_currentVelocity == Vector2.zero)
+            _followingCamera.transform.position = Vector3Int.RoundToInt(newPosition);
+    }
 }
