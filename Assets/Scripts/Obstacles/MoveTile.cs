@@ -59,6 +59,9 @@ public class MoveTile : MonoBehaviour, IPhaseItem
             return;
 
         _holding = collider.transform;
+
+        if (PhaseManager.Instance.CurrentPhase == Phase.Obstacles)
+            StartCoroutine(MoveHolding());
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -71,8 +74,15 @@ public class MoveTile : MonoBehaviour, IPhaseItem
 
     public void AdvanceStage()
     {
+        StartCoroutine(MoveHolding());
+    }
+
+    private IEnumerator MoveHolding()
+    {
         if (_holding == null)
-            return;
+            yield break;
+
+        yield return new WaitForSeconds(0.15f);        
 
         Vector3Int move;
         switch (Direction)
@@ -94,5 +104,7 @@ public class MoveTile : MonoBehaviour, IPhaseItem
         }
 
         _holding.position += move;
+
+        SoundManager.Instance.Play(Sound.Walk);
     }
 }
