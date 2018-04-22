@@ -13,13 +13,15 @@ public class SpikeSettings
     public bool RandomStartStage = true;
 }
 
+[RequireComponent(typeof(Collider2D))]
 public class Spikes : Obstacle
 {
     [SerializeField] private SpikeSettings _settings;
 
     public int Stages { get; private set; }
     private int _currentStage;
-    public int CurrentStage {
+    public int CurrentStage
+    {
         get { return _currentStage; }
         private set
         {
@@ -28,12 +30,19 @@ public class Spikes : Obstacle
             else
                 _currentStage = value;
 
-            _settings.SpriteRenderer.sprite = _settings.StageSprites[_currentStage];            
+            _settings.SpriteRenderer.sprite = _settings.StageSprites[_currentStage];
+
+            _collider.enabled = value == Stages - 1;
         }
     }
 
+    private Collider2D _collider;
+
     private void Start()
     {
+        _collider = GetComponent<Collider2D>();
+        _collider.enabled = false;
+
         Stages = 3;
 
         CurrentStage = _settings.StartStage;
@@ -43,8 +52,17 @@ public class Spikes : Obstacle
         PhaseManager.Instance.RegisterObstacle(this);
     }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.GetComponent<Player>() == null)
+            return;
+
+        GameManager.Instance.State = GameState.GameOver;
+    }
+
     public override void AdvanceStage()
     {
         CurrentStage++;
     }
+
 }
