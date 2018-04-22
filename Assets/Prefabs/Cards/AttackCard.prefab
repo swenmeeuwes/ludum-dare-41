@@ -179,7 +179,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Attack the 4 spaces besides you
+  m_Text: Attack the 4 adjacent spaces
 --- !u!114 &114411587318251680
 MonoBehaviour:
   m_ObjectHideFlags: 1
