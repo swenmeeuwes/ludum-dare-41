@@ -6,6 +6,6 @@ public class EndMarker : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Player>() != null)
-            SceneLoader.Instance.ReloadCurrentSceneAsync();
+            SceneLoader.Instance.LoadNextAsync();
     }
 }
