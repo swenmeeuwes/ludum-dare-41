@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoSingleton<SceneLoader>
 {
-    [SerializeField]
-    private SceneLibrary _library;
-
     public ScreenTransitionHandler ScreenTransitionHandler { get; set; }
 
     public AsyncOperation CurrentAsyncOperation;
