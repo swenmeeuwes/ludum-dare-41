@@ -10,6 +10,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 {
     [Header("References")]
     [SerializeField] private SoundContext _soundContext;
+    [SerializeField] private AudioMixerGroup _bgmMixer;
     [SerializeField] private AudioMixerGroup _sfxMixer;
 
     [Header("Settings")]
@@ -25,18 +26,17 @@ public class SoundManager : MonoSingleton<SoundManager>
             MutateSfxAudioSources(audioSource => audioSource.mute = value);
             PlayerPrefs.SetInt(PlayerPreferenceLiterals.MuteSound, value ? 1 : 0);
         }
-    }
+    }    
 
     private readonly List<AudioSource> _sfxAudioSources = new List<AudioSource>();
+    private AudioSource _bgmAudioSource;
 
     private void Awake()
     {
         DefineSingleton(this, true);
-    }
 
-    private void Start()
-    {
         InitializeSfxAudioSources();
+        InitializeBGMAudioSource();
     }
 
     public void Play(Sound sound)
@@ -47,6 +47,27 @@ public class SoundManager : MonoSingleton<SoundManager>
     public void Play(Sound sound, float pitch)
     {
         StartCoroutine(PlaySfx(sound, pitch));
+    }
+
+    public void PlayBgm(Sound sound)
+    {
+        if (!_bgmAudioSource.isPlaying)
+        {
+            _bgmAudioSource.loop = true;
+            _bgmAudioSource.clip = _soundContext.Map.First(item => item.Sound == sound).Clips[0];            
+            _bgmAudioSource.Play();
+        }
+    }
+
+    public void SetBgmVolume(float volume)
+    {
+        _bgmAudioSource.volume = volume;
+    }
+
+    private void InitializeBGMAudioSource()
+    {
+        _bgmAudioSource = gameObject.AddComponent<AudioSource>();
+        _bgmAudioSource.outputAudioMixerGroup = _bgmMixer;
     }
 
     private void InitializeSfxAudioSources()

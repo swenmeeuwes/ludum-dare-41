@@ -3,5 +3,7 @@
     Attack,
     Hurt,
     Shuffle,
-    DungeonClear
+    DungeonClear,
+    StartGame,
+    BGM
 }
