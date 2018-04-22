@@ -21,6 +21,7 @@ public class CardManager : MonoSingleton<CardManager>
     [SerializeField] private DropTarget _handDropTarget;
     [SerializeField] private LayoutGroup _layoutGroup;
     [SerializeField] private AvailableCardItem[] _availableCards;
+    [SerializeField] private int _handSize = 5;
     
     private CardVisitor _executeCardVisitor;
 
@@ -36,12 +37,8 @@ public class CardManager : MonoSingleton<CardManager>
 
         _executeCardVisitor = new ExecuteCardVisitor(this, _player);
         AddEventListeners();
-
-        // TEST
-        for (var i = 0; i < 5; i++)
-        {
-            PutRandomCardInHand();
-        }
+        
+        PopulateHand();
     }
 
     protected override void OnDestroy()
@@ -60,6 +57,7 @@ public class CardManager : MonoSingleton<CardManager>
             return null;
 
         card.CurrentDropTarget = _handDropTarget;
+        card.CurrentDropTarget.Register(card);
         card.PossibleTargets = _availableTargetsHints;
         card.LayoutGroup = _layoutGroup;
         card.Cost = Random.Range(1, 2);
@@ -69,6 +67,12 @@ public class CardManager : MonoSingleton<CardManager>
         card.transform.SetParent(_layoutGroup.transform, false);
 
         return card;
+    }
+
+    public void ShuffleCards()
+    {
+        ClearHand();
+        PopulateHand();
     }
 
     public void ExecuteCards(Card[] cards)
@@ -100,6 +104,23 @@ public class CardManager : MonoSingleton<CardManager>
         }
 
         return _availableCards[_availableCards.Length - 1].Card;
+    }
+
+    private void ClearHand()
+    {
+        var cards = _handDropTarget.Draggables.Select(draggable => draggable.GetComponent<Card>()).Where(item => item != null).ToArray();
+        for (var i = cards.Count() - 1; i >= 0; i--)
+        {
+            cards[i].Destroy();
+        }
+    }
+
+    private void PopulateHand()
+    {
+        for (var i = 0; i < _handSize; i++)
+        {
+            PutRandomCardInHand();
+        }
     }
 
     //[Obsolete]

@@ -21,12 +21,7 @@ public class DropTarget : MonoEventDispatcher, IDropHandler
 
         droppedDraggable.OnEndDrag();
 
-        droppedDraggable.CurrentDropTarget.Remove(droppedDraggable);
-        droppedDraggable.CurrentDropTarget = this;
-        droppedDraggable.LayoutGroup = _container;
-        droppedDraggable.transform.SetParent(_container.transform, false);
-
-        _draggables.Add(droppedDraggable);
+        Register(droppedDraggable);
 
         Dispatch(new EventObject
         {
@@ -34,6 +29,16 @@ public class DropTarget : MonoEventDispatcher, IDropHandler
             Type = Dropped,
             Data = pointerEventData.pointerDrag
         });
+    }
+
+    public void Register(Draggable draggable)
+    {
+        draggable.CurrentDropTarget.Remove(draggable);
+        draggable.CurrentDropTarget = this;
+        draggable.LayoutGroup = _container;
+        draggable.transform.SetParent(_container.transform, false);
+
+        _draggables.Add(draggable);
 
         Dispatch(new EventObject
         {
@@ -53,5 +58,5 @@ public class DropTarget : MonoEventDispatcher, IDropHandler
             Type = PileChanged,
             Data = Draggables
         });
-    }
+    }    
 }

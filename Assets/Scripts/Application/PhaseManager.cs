@@ -108,6 +108,14 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         HandleCurrentPhase();
     }
 
+    public void ShuffleCards()
+    {       
+        CardManager.Instance.ShuffleCards();
+
+        CurrentPhase = Phase.Obstacles;
+        HandleCurrentPhase();
+    }
+
     private void HandleCurrentPhase()
     {
         switch (CurrentPhase)

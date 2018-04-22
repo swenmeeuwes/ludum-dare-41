@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class EndTurnButtonController : MonoBehaviour
 {
     [SerializeField] private Button _endTurnButton;
+    [SerializeField] private Text _endTurnButtonText;
     [SerializeField] private Player _player;
     [SerializeField] private ExecuteHolder _executeHolder;
 
@@ -11,9 +12,31 @@ public class EndTurnButtonController : MonoBehaviour
     {
         var phaseManager = PhaseManager.Instance;
         var staminaNetto = phaseManager.PlayerStamina - phaseManager.CurrentStaminaCost;
-        _endTurnButton.interactable = !(staminaNetto < 0 || _player.Movement.IsBusy || phaseManager.CurrentPhase != Phase.Player || _executeHolder.Cards.Length == 0);
+        _endTurnButton.interactable = !(staminaNetto < 0 || _player.Movement.IsBusy || phaseManager.CurrentPhase != Phase.Player);
+
+        if (_endTurnButton.interactable && _executeHolder.Cards.Length == 0)
+            _endTurnButtonText.text = "Shuffle";
+        else
+            _endTurnButtonText.text = "End turn";
 
         //Debug.Log(string.Format("{0}  {1}   {2}", staminaNetto < 0, _player.Movement.IsBusy, phaseManager.CurrentPhase != Phase.Player));
+    }
+
+    public void Handle()
+    {
+        _endTurnButtonText.text = "...";
+
+        if (_executeHolder.Cards.Length == 0)
+        {
+            // Shuffle
+            PhaseManager.Instance.ShuffleCards();
+            SoundManager.Instance.Play(Sound.Shuffle);
+        }
+        else
+        {
+            // Execute cards
+            PhaseManager.Instance.ExecuteCards();
+        }
     }
 
     //private void Start()

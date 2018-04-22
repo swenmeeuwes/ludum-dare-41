@@ -1,5 +1,6 @@
 ﻿public enum Sound {
     Walk,
     Attack,
-    Hurt
+    Hurt,
+    Shuffle
 }
