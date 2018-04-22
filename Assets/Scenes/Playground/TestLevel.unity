@@ -2235,7 +2235,8 @@ Prefab:
         type: 2}
       propertyPath: _availableCards.Array.data[2].Card
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 114967284246345810, guid: 4615c17921b89104cb9963bf28f9c9c7,
+        type: 2}
     - target: {fileID: 114223698427870174, guid: 64140b5d70c9f7347bbea628e4b08d81,
         type: 2}
       propertyPath: _availableCards.Array.data[2].Propability

@@ -1,7 +1,9 @@
 ﻿public class SpinAttackCard : Card
 {
-    private void Awake()
+    protected override void Start()
     {
+        base.Start();
+
         Cost = 2;
     }
 
