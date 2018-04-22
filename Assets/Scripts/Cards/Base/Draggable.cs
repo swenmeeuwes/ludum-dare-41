@@ -35,6 +35,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         IsBeingDragged = true;        
 
         _startPosition = transform.position;
+        transform.SetParent(transform.root);
 
         _graphic.raycastTarget = false;
         ShowTargets(true);
@@ -50,7 +51,10 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         IsBeingDragged = false;
 
         if (ShouldReturn)
+        {
             transform.position = _startPosition;
+            transform.SetParent(CurrentDropTarget.Container.transform);
+        }
 
         _graphic.raycastTarget = true;
         ShowTargets(false);

@@ -9,6 +9,7 @@ public class DropTarget : MonoEventDispatcher, IDropHandler
     public static readonly string PileChanged = "DropTarget.PileChanged";
 
     [SerializeField] private LayoutGroup _container;
+    public LayoutGroup Container { get { return _container; } }
 
     private readonly List<Draggable> _draggables = new List<Draggable>();
     public List<Draggable> Draggables { get { return _draggables; } }
