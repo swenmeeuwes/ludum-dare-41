@@ -95,6 +95,9 @@ public class Enemy : MonoBehaviour, IPhaseItem
             SoundManager.Instance.Play(Sound.Walk);
 
             yield return new WaitForSeconds(0.35f);
+
+            IsMoving = false;
+            yield break;
         }
 
         while (moves.y != 0)
@@ -121,6 +124,9 @@ public class Enemy : MonoBehaviour, IPhaseItem
             SoundManager.Instance.Play(Sound.Walk);
 
             yield return new WaitForSeconds(0.35f);
+
+            IsMoving = false;
+            yield break;
         }
 
         IsMoving = false;
