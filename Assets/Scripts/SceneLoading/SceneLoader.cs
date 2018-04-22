@@ -21,12 +21,12 @@ public class SceneLoader : MonoSingleton<SceneLoader>
 
     public void LoadNextAsync()
     {
-        StartCoroutine(LoadSceneAsync(ActiveScene.buildIndex + 1));
+        StartCoroutine(LoadSceneAsyncCoroutine(ActiveScene.buildIndex + 1));
     }
 
     public void ReloadCurrentSceneAsync()
     {
-        StartCoroutine(LoadSceneAsync(ActiveScene.buildIndex));
+        StartCoroutine(LoadSceneAsyncCoroutine(ActiveScene.buildIndex));
     }
 
     //public void LoadSceneAsync(SceneAsset sceneAsset)
@@ -38,22 +38,27 @@ public class SceneLoader : MonoSingleton<SceneLoader>
     //    StartCoroutine(LoadSceneAsync(sceneBuildIndex));
     //}
 
-    public void LoadSceneAsync(string sceneName)
-    {
-        var scene = SceneManager.GetSceneByName(sceneName);
-        var sceneBuildIndex = scene.buildIndex;
-        if (sceneBuildIndex == -1)
-            throw new Exception(string.Format("The scene that is trying to be loaded is not listed in the build settings: {0}", scene.name));
+    //public void LoadSceneAsync(string sceneName)
+    //{
+    //    var scene = SceneManager.GetSceneByName(sceneName);
+    //    var sceneBuildIndex = scene.buildIndex;
+    //    if (sceneBuildIndex == -1)
+    //        throw new Exception(string.Format("The scene that is trying to be loaded is not listed in the build settings: {0}", scene.name));
 
-        StartCoroutine(LoadSceneAsync(sceneBuildIndex));
-    }
+    //    StartCoroutine(LoadSceneAsync(sceneBuildIndex));
+    //}
 
     public void ShowLoadScreen()
     {
         SceneManager.LoadScene(SceneLiterals.LoadScreen, LoadSceneMode.Additive);
     }
 
-    private IEnumerator LoadSceneAsync(int buildIndex)
+    public void LoadSceneAsync(int buildIndex)
+    {
+        StartCoroutine(LoadSceneAsyncCoroutine(buildIndex));
+    }
+
+    private IEnumerator LoadSceneAsyncCoroutine(int buildIndex)
     {
         if (ScreenTransitionHandler != null)
         {
