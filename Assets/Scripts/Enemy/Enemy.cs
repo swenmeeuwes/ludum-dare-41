@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.right;
+                Rotate(Vector2Int.right);
 
                 moves.x--;
             }
@@ -88,6 +89,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.left;
+                Rotate(Vector2Int.left);
 
                 moves.x++;
             }
@@ -108,6 +110,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.up;
+                Rotate(Vector2Int.up);
 
                 moves.y--;
             }
@@ -117,6 +120,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.down;
+                Rotate(Vector2Int.down);
 
                 moves.y++;
             }
@@ -130,5 +134,11 @@ public class Enemy : MonoBehaviour, IPhaseItem
         }
 
         IsMoving = false;
-    }    
+    }
+
+    private void Rotate(Vector2Int direction)
+    {
+        var rotation = DirectionUtil.DirectionToRotation(direction);
+        _spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, rotation);
+    }
 }

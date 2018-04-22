@@ -7,6 +7,8 @@ public class PlayerMovement : MonoEventDispatcher
 {
     public static readonly string IsMovingChanged = "PlayerMovement.IsMovingChanged";
 
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
     private bool _isMoving;
     public bool IsMoving {
         get { return _isMoving; }
@@ -75,6 +77,7 @@ public class PlayerMovement : MonoEventDispatcher
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.right;
+                Rotate(Vector2Int.right);
 
                 moves.x--;
             }
@@ -84,6 +87,7 @@ public class PlayerMovement : MonoEventDispatcher
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.left;
+                Rotate(Vector2Int.left);
 
                 moves.x++;
             }
@@ -101,6 +105,7 @@ public class PlayerMovement : MonoEventDispatcher
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.up;
+                Rotate(Vector2Int.up);
 
                 moves.y--;
             }
@@ -110,6 +115,7 @@ public class PlayerMovement : MonoEventDispatcher
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.down;
+                Rotate(Vector2Int.down);
 
                 moves.y++;
             }
@@ -149,5 +155,11 @@ public class PlayerMovement : MonoEventDispatcher
         GetPossibleMovesRec(ref possibleMoves, position - Vector3Int.down, power - 1);
         GetPossibleMovesRec(ref possibleMoves, position - Vector3Int.left, power - 1);
         GetPossibleMovesRec(ref possibleMoves, position - Vector3Int.right, power - 1);
+    }
+
+    private void Rotate(Vector2Int direction)
+    {
+        var rotation = DirectionUtil.DirectionToRotation(direction);
+        _spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 }
