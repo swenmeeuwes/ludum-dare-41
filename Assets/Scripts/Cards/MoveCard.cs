@@ -46,5 +46,9 @@ public class MoveCard : Card
 
         // Randomize moves
         Moves = UnityEngine.Random.Range(1, 3); // 1 - 2 moves (3 = exclusive)
+
+        // 5% chance on 3 move cards
+        if (UnityEngine.Random.value > 0.95f)
+            Moves = 3;
     }
 }
