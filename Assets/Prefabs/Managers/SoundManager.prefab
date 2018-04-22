@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundContext: {fileID: 11400000, guid: 830ec0675d1777d41991f8da7a34836c, type: 2}
+  _bgmMixer: {fileID: 24300002, guid: 249d7a7b60961bf42b126e088da913ee, type: 2}
   _sfxMixer: {fileID: 24300002, guid: 6df20936ef7b2284b90099a9b51e9deb, type: 2}
   _sfxAudioSourceCount: 2
   _pitchDomain: {x: 0.95, y: 1.05}
