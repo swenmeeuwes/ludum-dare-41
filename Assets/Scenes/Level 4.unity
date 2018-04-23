@@ -144,7 +144,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1932755579}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &124578994
 TilemapCollider2D:
@@ -12714,7 +12714,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4791230181752746, guid: 7f21997e2278232469f48c1b7e256c88, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1455614790694820, guid: 7f21997e2278232469f48c1b7e256c88, type: 2}
       propertyPath: m_Name
@@ -12937,7 +12937,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4317814713957316, guid: aecfc5b2dbad8074abdc003151cfdd46, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1606158323943288, guid: aecfc5b2dbad8074abdc003151cfdd46, type: 2}
       propertyPath: m_Name
@@ -12988,12 +12988,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4824880579776278, guid: e05c897bf8733d14dac07de647946e4d, type: 2}
       propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114027791318028474, guid: e05c897bf8733d14dac07de647946e4d,
-        type: 2}
-      propertyPath: _settings.StartStage
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e05c897bf8733d14dac07de647946e4d, type: 2}
@@ -13051,7 +13046,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4791230181752746, guid: 7f21997e2278232469f48c1b7e256c88, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647943244390350, guid: 7f21997e2278232469f48c1b7e256c88,
+        type: 2}
+      propertyPath: Moves
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1455614790694820, guid: 7f21997e2278232469f48c1b7e256c88, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7f21997e2278232469f48c1b7e256c88, type: 2}
@@ -13089,7 +13093,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1932755579}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1326589063
 TilemapRenderer:
@@ -16598,7 +16602,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1699260081}
+    m_TransformParent: {fileID: 1932755579}
     m_Modifications:
     - target: {fileID: 4439318966538224, guid: 4ad5a1c2a23ccca49a2cf10a74599623, type: 2}
       propertyPath: m_LocalPosition.x
@@ -16676,7 +16680,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1125892784}
   - {fileID: 2053261190}
   - {fileID: 1322224087}
   - {fileID: 1039729781}
@@ -16684,7 +16687,7 @@ Transform:
   - {fileID: 284081397}
   - {fileID: 1898619622}
   m_Father: {fileID: 1932755579}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1699260082
 TilemapRenderer:
@@ -16804,7 +16807,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4317814713957316, guid: aecfc5b2dbad8074abdc003151cfdd46, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aecfc5b2dbad8074abdc003151cfdd46, type: 2}
@@ -16857,6 +16860,7 @@ Transform:
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1125892784}
   - {fileID: 1326589062}
   - {fileID: 124578993}
   - {fileID: 1699260081}
@@ -16911,7 +16915,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4476136926312082, guid: 6c002b0f877c35a44b4dad16f9397317, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c002b0f877c35a44b4dad16f9397317, type: 2}
