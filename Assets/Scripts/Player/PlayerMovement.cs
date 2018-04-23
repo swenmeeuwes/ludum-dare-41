@@ -29,14 +29,6 @@ public class PlayerMovement : MonoEventDispatcher
         get { return Vector3Int.FloorToInt(transform.position); }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            transform.position += Vector3.left * GridManager.Instance.GridSize;
-        }
-    }
-
     public void Attack(Enemy[] enemies)
     {
         StartCoroutine(AttackCoroutine(enemies));
