@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum MoveDirection
 {
@@ -11,6 +12,9 @@ public enum MoveDirection
 
 public class MoveCard : Card
 {
+    //[SerializeField] private Sprite[] _sprites; // In order of enum
+    [SerializeField] private Image _directionImage;
+
     private int _move;
     public int Moves {
         get { return _move; }
@@ -27,6 +31,7 @@ public class MoveCard : Card
         get { return _direction; }
         set
         {
+            _directionImage.rectTransform.rotation = Quaternion.Euler(0, 0, DirectionToRotation(value));
             Elements.Header.text = string.Format("Move {0}", value);
             _direction = value;
         }
@@ -50,5 +55,22 @@ public class MoveCard : Card
         // 5% chance on 3 move cards
         if (UnityEngine.Random.value > 0.95f)
             Moves = 3;
+    }
+
+    private int DirectionToRotation(MoveDirection direction)
+    {
+        switch (direction)
+        {
+            case MoveDirection.Up:
+                return 0;
+            case MoveDirection.Left:
+                return 90;
+            case MoveDirection.Down:
+                return 180;
+            case MoveDirection.Right:
+                return 270;
+            default:
+                throw new ArgumentOutOfRangeException("direction", direction, null);
+        }
     }
 }
