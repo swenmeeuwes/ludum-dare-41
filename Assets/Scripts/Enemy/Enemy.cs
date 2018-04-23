@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
         _spriteRenderer.enabled = false;
         _bloodParticleSystem.Play();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(5f); //hack
 
         PhaseManager.Instance.DeregisterEnemy(this);
 
