@@ -12,7 +12,8 @@ public enum GameState
 public class GameManager : MonoSingleton<GameManager>
 {
     private GameState _state;
-    public GameState State {
+    public GameState State
+    {
         get { return _state; }
         set
         {
@@ -29,6 +30,12 @@ public class GameManager : MonoSingleton<GameManager>
         DefineSingleton(this);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            SceneLoader.Instance.ReloadCurrentSceneAsync();
+    }
+
     private void HandleStateChanged(GameState previousState, GameState newState)
     {
         switch (newState)
@@ -38,7 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
             case GameState.Playing:
                 break;
             case GameState.GameOver:
-                ScreenTransitionHandler.Instance.IsDieing();                
+                ScreenTransitionHandler.Instance.IsDieing();
                 SceneLoader.Instance.ReloadCurrentSceneAsync();
                 break;
         }
