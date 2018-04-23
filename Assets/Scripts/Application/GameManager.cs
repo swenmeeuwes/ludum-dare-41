@@ -33,9 +33,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void Awake()
     {
         DefineSingleton(this);
-    }
-    private void Start()
-    {
+
         _player = FindObjectOfType<Player>();
         _endMarker = FindObjectOfType<EndMarker>();
     }

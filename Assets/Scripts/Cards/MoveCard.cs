@@ -81,25 +81,25 @@ public class MoveCard : Card
         probabilitySet[0] = new DirectionProbabilityItem
         {
             Direction = MoveDirection.Up,
-            Probability = playerDifferenceToGoal.y > 0 ? 30 : 20
+            Probability = playerDifferenceToGoal.y > 0 ? 40 : 10
         };
 
         probabilitySet[1] = new DirectionProbabilityItem
         {
             Direction = MoveDirection.Down,
-            Probability = playerDifferenceToGoal.y < 0 ? 30 : 20
+            Probability = playerDifferenceToGoal.y < 0 ? 40 : 10
         };
 
         probabilitySet[2] = new DirectionProbabilityItem
         {
             Direction = MoveDirection.Right,
-            Probability = playerDifferenceToGoal.x > 0 ? 30 : 20
+            Probability = playerDifferenceToGoal.x > 0 ? 40 : 10
         };
 
         probabilitySet[3] = new DirectionProbabilityItem
         {
             Direction = MoveDirection.Left,
-            Probability = playerDifferenceToGoal.x < 0 ? 30 : 20
+            Probability = playerDifferenceToGoal.x < 0 ? 40 : 10
         };
 
         var probabilityCountDown = Random.Range(0, 100);
