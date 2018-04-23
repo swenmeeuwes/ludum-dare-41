@@ -161,9 +161,9 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
 
     private IEnumerator EnemyPhase()
     {
-        foreach (var enemyPhaseItem in _enemies)
+        for (var i = _enemies.Count - 1; i >= 0; i--)
         {
-            var enemy = (Enemy)enemyPhaseItem;
+            var enemy = (Enemy)_enemies[i];
             var times = enemy.Moves;
             while (times > 0)
             {

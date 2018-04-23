@@ -48,14 +48,14 @@ public class Enemy : MonoBehaviour, IPhaseItem
     {
         IsDieing = true;
 
+        PhaseManager.Instance.DeregisterEnemy(this);
+
         _spriteRenderer.enabled = false;
         _isTriggerCollider.enabled = false;
         _bloodParticleSystem.Play();
 
-        yield return new WaitForSeconds(25f); //hack
-
-        PhaseManager.Instance.DeregisterEnemy(this);
-
+        yield return new WaitForSeconds(0.35f);
+        
         Destroy(gameObject);
     }
 
