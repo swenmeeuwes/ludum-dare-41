@@ -12,6 +12,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
     private MaskableGraphic _graphic;
 
     public DropTarget CurrentDropTarget { get; set; }
+    private int _currentSiblingIndex;
 
     private bool _isBeingDragged;
     private bool IsBeingDragged {
@@ -23,11 +24,11 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         }
         get { return _isBeingDragged; }
     }    
-    private Vector3 _startPosition;
+    private Vector3 _startPosition;    
 
     protected virtual void Start()
     {
-        _graphic = GetComponent<MaskableGraphic>();
+        _graphic = GetComponent<MaskableGraphic>();        
     }
 
     public void OnBeginDrag(PointerEventData pointerEventData)
@@ -35,7 +36,8 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         IsBeingDragged = true;        
 
         _startPosition = transform.position;
-        transform.SetParent(transform.root);
+        _currentSiblingIndex = transform.GetSiblingIndex();
+        transform.SetParent(transform.root);        
 
         _graphic.raycastTarget = false;
         ShowTargets(true);
@@ -54,6 +56,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         {
             transform.position = _startPosition;
             transform.SetParent(CurrentDropTarget.Container.transform);
+            transform.SetSiblingIndex(_currentSiblingIndex);
         }
 
         _graphic.raycastTarget = true;
