@@ -342,7 +342,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Made for: Ludum Dare 41'
+  m_Text: 'Made by Swen in 48 hours
+
+    for Ludum Dare 41'
 --- !u!222 &979093414
 CanvasRenderer:
   m_ObjectHideFlags: 0
