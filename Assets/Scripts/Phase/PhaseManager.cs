@@ -168,7 +168,7 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
             while (times > 0)
             {
                 enemy.AdvanceStage();
-                yield return new WaitUntil(() => !enemy.IsMoving);
+                yield return new WaitUntil(() => !enemy.IsMoving || enemy.IsDieing);
 
                 times--;
             }

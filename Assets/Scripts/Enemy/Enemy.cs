@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
         get { return Vector3Int.FloorToInt(transform.position); }
     }
 
+    public bool IsDieing { get; set; }
     public bool IsMoving { get; set; }
     public int Moves = 1;
 
@@ -44,18 +45,23 @@ public class Enemy : MonoBehaviour, IPhaseItem
 
     private IEnumerator DieCoroutine()
     {
+        IsDieing = true;
+
         _spriteRenderer.enabled = false;
         _bloodParticleSystem.Play();
 
-        PhaseManager.Instance.DeregisterEnemy(this);
-
         yield return new WaitForSeconds(0.2f);
+
+        PhaseManager.Instance.DeregisterEnemy(this);
 
         Destroy(gameObject);
     }
 
     public void AdvanceStage()
     {
+        if (IsDieing)
+            return;
+
         var directionToPlayer = Vector3Int.CeilToInt(_target.transform.position - transform.position);
         directionToPlayer.Clamp(new Vector3Int(-1, -1, -1), Vector3Int.one);
 
@@ -76,7 +82,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
         {
             if (moves.x > 0)
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.right, GridLayer.Walls))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.right, GridLayer.Walls) || !IsEntityFree(GridPosition + Vector3Int.right))
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.right;
@@ -86,7 +92,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
             }
             else
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.left, GridLayer.Walls))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.left, GridLayer.Walls) || !IsEntityFree(GridPosition + Vector3Int.left))
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.left;
@@ -107,7 +113,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
         {
             if (moves.y > 0)
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.up, GridLayer.Walls))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.up, GridLayer.Walls) || !IsEntityFree(GridPosition + Vector3Int.up))
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.up;
@@ -117,7 +123,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
             }
             else
             {
-                if (!gridManager.IsFree(GridPosition + Vector3Int.down, GridLayer.Walls))
+                if (!gridManager.IsFree(GridPosition + Vector3Int.down, GridLayer.Walls) || !IsEntityFree(GridPosition + Vector3Int.down))
                     break;
 
                 transform.localPosition = GridPosition + Vector3Int.down;
@@ -135,6 +141,23 @@ public class Enemy : MonoBehaviour, IPhaseItem
         }
 
         IsMoving = false;
+    }
+
+    private bool IsEntityFree(Vector3Int position)
+    {           
+        var hit = Physics2D.OverlapBox(new Vector2(position.x - 0.5f, position.y - 0.5f), Vector2.one * 1f, 0);
+        if (hit == null)
+            return true;
+
+        var spikes = hit.GetComponent<Spikes>();
+        if (spikes != null && spikes.CurrentStage != spikes.Stages - 1)
+            return true;
+
+        var moveTile = hit.GetComponent<MoveTile>();
+        if (moveTile != null)
+            return true;
+
+        return false;
     }
 
     private void Rotate(Vector2Int direction)
