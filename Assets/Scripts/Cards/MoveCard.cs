@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public enum MoveDirection
 {
@@ -10,13 +11,20 @@ public enum MoveDirection
     Left
 }
 
+public class DirectionProbabilityItem
+{
+    public MoveDirection Direction { get; set; }
+    public int Probability { get; set; }
+}
+
 public class MoveCard : Card
 {
     //[SerializeField] private Sprite[] _sprites; // In order of enum
     [SerializeField] private Image _directionImage;
 
     private int _move;
-    public int Moves {
+    public int Moves
+    {
         get { return _move; }
         set
         {
@@ -27,7 +35,8 @@ public class MoveCard : Card
     }
 
     private MoveDirection _direction;
-    public MoveDirection Direction {
+    public MoveDirection Direction
+    {
         get { return _direction; }
         set
         {
@@ -45,9 +54,10 @@ public class MoveCard : Card
     public override void Randomize()
     {
         // Randomize direction
-        var moveDirections = Enum.GetNames(typeof(MoveDirection));
-        var randomDirection = moveDirections[UnityEngine.Random.Range(0, moveDirections.Length)];
-        Direction = (MoveDirection)Enum.Parse(typeof(MoveDirection), randomDirection);
+        //var moveDirections = Enum.GetNames(typeof(MoveDirection));
+        //var randomDirection = moveDirections[UnityEngine.Random.Range(0, moveDirections.Length)];
+        //Direction = (MoveDirection)Enum.Parse(typeof(MoveDirection), randomDirection);
+        Direction = ComputeDirection();
 
         // Randomize moves
         Moves = UnityEngine.Random.Range(1, 3); // 1 - 2 moves (3 = exclusive)
@@ -55,6 +65,52 @@ public class MoveCard : Card
         // 5% chance on 3 move cards
         if (UnityEngine.Random.value > 0.95f)
             Moves = 3;
+    }
+
+    private MoveDirection ComputeDirection()
+    {
+        var moveDirections = Enum.GetNames(typeof(MoveDirection));
+        var probabilitySet = new DirectionProbabilityItem[moveDirections.Length];
+        var playerDifferenceToGoal = GameManager.Instance.ComputeDifferenceBetweenPlayerAndGoal();
+
+        // HACKY for now
+        //Up,
+        //Down,
+        //Right,
+        //Left
+        probabilitySet[0] = new DirectionProbabilityItem
+        {
+            Direction = MoveDirection.Up,
+            Probability = playerDifferenceToGoal.y > 0 ? 30 : 20
+        };
+
+        probabilitySet[1] = new DirectionProbabilityItem
+        {
+            Direction = MoveDirection.Down,
+            Probability = playerDifferenceToGoal.y < 0 ? 30 : 20
+        };
+
+        probabilitySet[2] = new DirectionProbabilityItem
+        {
+            Direction = MoveDirection.Right,
+            Probability = playerDifferenceToGoal.x > 0 ? 30 : 20
+        };
+
+        probabilitySet[3] = new DirectionProbabilityItem
+        {
+            Direction = MoveDirection.Left,
+            Probability = playerDifferenceToGoal.x < 0 ? 30 : 20
+        };
+
+        var probabilityCountDown = Random.Range(0, 100);
+        for (var i = 0; i < probabilitySet.Length; i++)
+        {
+            probabilityCountDown -= probabilitySet[i].Probability;
+            if (probabilityCountDown < 0)
+                return probabilitySet[i].Direction;
+        }
+
+        return probabilitySet[probabilitySet.Length - 1].Direction;
     }
 
     private int DirectionToRotation(MoveDirection direction)

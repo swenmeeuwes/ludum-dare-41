@@ -111,6 +111,13 @@ public class CardManager : MonoSingletonEventDispatcher<CardManager>
 
     private Card GetRandomCard()
     {
+        if (PhaseManager.Instance.AmountOfEnemies == 0)
+        {
+            var moveCardItem = _availableCards.FirstOrDefault(item => item.Card is MoveCard);
+            if (moveCardItem != null)
+                moveCardItem.Propability = 98;
+        }
+
         var probabilityCountDown = Random.Range(0, 100);
         for (var i = 0; i < _availableCards.Length; i++)
         {

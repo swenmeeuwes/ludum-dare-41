@@ -85,6 +85,10 @@ public class PhaseManager : MonoSingletonEventDispatcher<PhaseManager>
         }
     }
 
+    public int AmountOfEnemies {
+        get { return _enemies.Count; }
+    }
+
     private readonly List<IPhaseItem> _obstacles = new List<IPhaseItem>();
     private readonly List<IPhaseItem> _enemies = new List<IPhaseItem>();
 

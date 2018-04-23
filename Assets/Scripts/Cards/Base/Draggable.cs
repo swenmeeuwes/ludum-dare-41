@@ -12,7 +12,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
     private MaskableGraphic _graphic;
 
     public DropTarget CurrentDropTarget { get; set; }
-    private int _currentSiblingIndex;
+    public int CurrentSiblingIndex { get; set; }
 
     private bool _isBeingDragged;
     private bool IsBeingDragged {
@@ -36,7 +36,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         IsBeingDragged = true;        
 
         _startPosition = transform.position;
-        _currentSiblingIndex = transform.GetSiblingIndex();
+        CurrentSiblingIndex = transform.GetSiblingIndex();
         transform.SetParent(transform.root);        
 
         _graphic.raycastTarget = false;
@@ -56,7 +56,7 @@ public abstract class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler
         {
             transform.position = _startPosition;
             transform.SetParent(CurrentDropTarget.Container.transform);
-            transform.SetSiblingIndex(_currentSiblingIndex);
+            transform.SetSiblingIndex(CurrentSiblingIndex);
         }
 
         _graphic.raycastTarget = true;
