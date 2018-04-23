@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
 {
     [SerializeField] private ParticleSystem _bloodParticleSystem;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Collider2D _isTriggerCollider;
 
     public Vector3Int GridPosition
     {
@@ -48,9 +49,10 @@ public class Enemy : MonoBehaviour, IPhaseItem
         IsDieing = true;
 
         _spriteRenderer.enabled = false;
+        _isTriggerCollider.enabled = false;
         _bloodParticleSystem.Play();
 
-        yield return new WaitForSeconds(5f); //hack
+        yield return new WaitForSeconds(25f); //hack
 
         PhaseManager.Instance.DeregisterEnemy(this);
 
@@ -77,6 +79,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
     {
         IsMoving = true;
 
+        var didMove = false;
         var gridManager = GridManager.Instance;
         while (moves.x != 0)
         {
@@ -88,6 +91,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                 transform.localPosition = GridPosition + Vector3Int.right;
                 Rotate(Vector2Int.right);
 
+                didMove = true;
                 moves.x--;
             }
             else
@@ -98,6 +102,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                 transform.localPosition = GridPosition + Vector3Int.left;
                 Rotate(Vector2Int.left);
 
+                didMove = true;
                 moves.x++;
             }
 
@@ -106,7 +111,9 @@ public class Enemy : MonoBehaviour, IPhaseItem
             yield return new WaitForSeconds(0.35f);
 
             IsMoving = false;
-            yield break;
+
+            if (didMove)
+                yield break;
         }
 
         while (moves.y != 0)
@@ -119,6 +126,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                 transform.localPosition = GridPosition + Vector3Int.up;
                 Rotate(Vector2Int.up);
 
+                didMove = true;
                 moves.y--;
             }
             else
@@ -129,6 +137,7 @@ public class Enemy : MonoBehaviour, IPhaseItem
                 transform.localPosition = GridPosition + Vector3Int.down;
                 Rotate(Vector2Int.down);
 
+                didMove = true;
                 moves.y++;
             }
 
@@ -137,27 +146,34 @@ public class Enemy : MonoBehaviour, IPhaseItem
             yield return new WaitForSeconds(0.35f);
 
             IsMoving = false;
-            yield break;
+
+            if (didMove)
+                yield break;
         }
 
         IsMoving = false;
     }
 
     private bool IsEntityFree(Vector3Int position)
-    {           
-        var hit = Physics2D.OverlapBox(new Vector2(position.x - 0.5f, position.y - 0.5f), Vector2.one * 1f, 0);
-        if (hit == null)
-            return true;
+    {
+        return true;
+        //var hit = Physics2D.OverlapBox(new Vector2(position.x - 0.5f, position.y - 0.5f), Vector2.one * 1f, 0);
+        //if (hit == null)
+        //    return true;
 
-        var spikes = hit.GetComponent<Spikes>();
-        if (spikes != null && spikes.CurrentStage != spikes.Stages - 1)
-            return true;
+        //var spikes = hit.GetComponent<Spikes>();
+        //if (spikes != null && spikes.CurrentStage != spikes.Stages - 1)
+        //    return true;
 
-        var moveTile = hit.GetComponent<MoveTile>();
-        if (moveTile != null)
-            return true;
+        //var moveTile = hit.GetComponent<MoveTile>();
+        //if (moveTile != null)
+        //    return true;
 
-        return false;
+        //var player = hit.GetComponent<Player>();
+        //if (player != null)
+        //    return true;
+
+        //return false;
     }
 
     private void Rotate(Vector2Int direction)

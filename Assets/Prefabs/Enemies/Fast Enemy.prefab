@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1250678842132664}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 7, z: 0}
+  m_LocalPosition: {x: 8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4790120926777402}
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bloodParticleSystem: {fileID: 198192450461938222}
   _spriteRenderer: {fileID: 212312277295874800}
+  _isTriggerCollider: {fileID: 61752677346759110}
   Moves: 2
 --- !u!198 &198192450461938222
 ParticleSystem:
