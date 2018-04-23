@@ -25,6 +25,8 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    private bool _isReloading;
+
     private void Awake()
     {
         DefineSingleton(this);
@@ -32,8 +34,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !_isReloading)
+        {
+            _isReloading = true;
             SceneLoader.Instance.ReloadCurrentSceneAsync();
+        }
     }
 
     private void HandleStateChanged(GameState previousState, GameState newState)
